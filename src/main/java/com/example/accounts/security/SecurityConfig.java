@@ -2,7 +2,6 @@ package com.example.accounts.security;
 
 import com.example.accounts.repository.UserRepo;
 import org.springframework.context.annotation.Bean;
-import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -12,6 +11,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.filter.CorsFilter;
@@ -24,9 +24,11 @@ import static java.lang.String.format;
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     private final UserRepo userRepo;
+    private final JwtTokenFilter jwtTokenFilter;
 
-    public SecurityConfig(UserRepo userRepo) {
+    public SecurityConfig(UserRepo userRepo, JwtTokenFilter jwtTokenFilter) {
         this.userRepo = userRepo;
+        this.jwtTokenFilter = jwtTokenFilter;
     }
 
     @Override
@@ -81,10 +83,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .anyRequest().authenticated();
 
         // Add JWT token filter
-//        http.addFilterBefore(
-//                jwtTokenFilter,
-//                UsernamePasswordAuthenticationFilter.class
-//        );
+        http.addFilterBefore(
+                jwtTokenFilter,
+                UsernamePasswordAuthenticationFilter.class
+        );
     }
     @Bean
     public CorsFilter corsFilter() {
