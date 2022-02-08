@@ -1,4 +1,4 @@
-package com.example.accounts.entity;
+package com.example.accounts.model;
 
 import lombok.Data;
 
@@ -13,7 +13,7 @@ public class Statement {
     @Column(name = "id")
     private Long id;
     @ManyToOne
-    @Column(name = "account_id")
+    @JoinColumn(name = "account_id")
     private Account account_id;
     private String description;
     private Double amount;
