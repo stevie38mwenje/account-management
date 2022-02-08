@@ -28,7 +28,7 @@ public class HomeController {
 
     @GetMapping("/")
     public String home() {
-        return "Welcome to Daily Code Buffer!!";
+        return "Health check!!";
     }
 
     @PostMapping("/authenticate")
