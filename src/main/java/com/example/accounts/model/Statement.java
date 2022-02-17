@@ -1,12 +1,16 @@
 package com.example.accounts.model;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.time.LocalDate;
 
 @Entity
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class Statement {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
